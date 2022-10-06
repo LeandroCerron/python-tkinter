@@ -9,7 +9,6 @@ class Database:
         cur.execute("SELECT * FROM products ORDER BY name DESC")
         result = cur.fetchall()
         cur.close()
-        print(result)
         return result
     
     def addProduct(self, productName, productPrice):
@@ -18,10 +17,11 @@ class Database:
         self.connection.commit()
         cur.close()
         return
-    
-    def connections(self):
+
+    def deleteProduct(self, productId):
         cur = self.connection.cursor()
-        cur.execute("select * from pg_stat_activity where datname = 'test'")
-        result = cur.fetchall()
-        print(len(result))
+        cur.execute(f"DELETE FROM products p WHERE p.id = {productId}", productId)
+        self.connection.commit()
+        cur.close()
         return
+    
