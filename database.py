@@ -28,7 +28,14 @@ class Database:
 
     def deleteProduct(self, productId):
         cur = self.connection.cursor()
-        cur.execute(f"DELETE FROM products p WHERE p.id = {productId}", productId)
+        cur.execute(f"DELETE FROM products p WHERE p.id = {productId}")
+        self.connection.commit()
+        cur.close()
+        return
+
+    def updateProduct(self, productId, productName, productPrice):
+        cur = self.connection.cursor()
+        cur.execute(f"UPDATE products SET name='{productName}', price='{productPrice}'WHERE id ='{productId}'")
         self.connection.commit()
         cur.close()
         return

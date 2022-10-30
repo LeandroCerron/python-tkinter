@@ -44,7 +44,7 @@ class Product:
 
         #Buttons
         ttk.Button(text='DELETE', command=self.deleteProduct).grid(row=5, column=0, sticky=W + E)
-        ttk.Button(text='UPDATE').grid(row=5, column=1, sticky=W + E)
+        ttk.Button(text='UPDATE', command=self.updateProduct).grid(row=5, column=1, sticky=W + E)
 
     def message(self, text, coolor):
         self.messages['fg'] = coolor
@@ -78,6 +78,21 @@ class Product:
             self.message('Product with id: {} deleted'.format(selectedProductId), 'green')
         else:
             self.message('Select the product you want to delete', 'red')
+        return
+    
+    def updateProduct(self):
+        selectedProduct = self.tree.item(self.tree.selection())
+        selectedProductId = selectedProduct['text']
+        if (selectedProductId):
+            oldName = selectedProduct['values'][0]
+            oldPrice = selectedProduct['values'][1]
+            newName = self.name.get() if self.name.get() else oldName
+            newPrice = self.price.get() if self.price.get() else oldPrice
+            self.db.updateProduct(selectedProductId, newName, newPrice)
+            self.getAllProducts()
+            self.message('Product with id: {} updated'.format(selectedProductId), 'green')
+        else:
+            self.message('Select the product you want to update', 'red')
         return
 
     def getAllProducts(self):
