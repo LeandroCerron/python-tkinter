@@ -1,8 +1,16 @@
 import psycopg2
+import enviroment
+import os
+
+HOST = os.environ.get('host')
+DBNAME = os.environ.get('dbname')
+USER = os.environ.get('user')
+PASSWORD = os.environ.get('password')
+PORT = os.environ.get('port')
 
 class Database:
     def __init__(self):
-        self.connection = psycopg2.connect("host=localhost dbname=test user=root password=123456 port=5432")
+        self.connection = psycopg2.connect(f"host={HOST} dbname={DBNAME} user={USER} password={PASSWORD} port={PORT}")
     
     def getAllProducts(self):
         cur = self.connection.cursor()
